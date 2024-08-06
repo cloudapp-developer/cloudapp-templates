@@ -1,0 +1,24 @@
+# 应用 ID，需修改成自己的应用 ID（在开发者中心获取）
+id: pkg-ias2p5ra
+
+# 安装参数
+args:
+  - name: app_target
+    label: 目标网络
+    widget: subnet-select
+  - name: cvm_type
+    label: 云服务器类型
+    widget: cvm-instance-type-select
+    region: ${app_target.region}
+    zone: ${app_target.subnet.zone}
+  - name: sg
+    label: 安全组
+    widget: security-group-select
+    regions:
+      - ${app_target.region}
+
+# 云API权限声明
+scopes:
+  cloudAPI:
+    - cloudapp:VerifyLicense
+    - cvm:DescribeInstances
