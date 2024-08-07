@@ -1,6 +1,7 @@
-const https = require("https");
+// 腾讯云 Node.JS SDK
+const tencentcloud = require("tencentcloud-sdk-nodejs");
+
 const http = require("http");
-const crypto = require("crypto");
 
 /**
  * 获取临时密钥
@@ -45,136 +46,43 @@ async function getTempSecret() {
   });
 }
 
-function sha256(message, secret = "", encoding) {
-  const hmac = crypto.createHmac("sha256", secret);
-  return hmac.update(message).digest(encoding);
-}
-function getHash(message, encoding = "hex") {
-  const hash = crypto.createHash("sha256");
-  return hash.update(message).digest(encoding);
-}
-function getDate(timestamp) {
-  const date = new Date(timestamp * 1000);
-  const year = date.getUTCFullYear();
-  const month = ("0" + (date.getUTCMonth() + 1)).slice(-2);
-  const day = ("0" + date.getUTCDate()).slice(-2);
-  return `${year}-${month}-${day}`;
-}
-
 /**
- * 调用云API
+ * 调用云API（Node.JS SDK示例）
  */
-async function callAPI(secretId, secretKey, token) {
-  const SECRET_ID = secretId;
-  const SECRET_KEY = secretKey;
-  const TOKEN = token;
+function callCloudAPI(secretId, secretKey, token) {
+  // 导入对应产品模块的client models。
+  const CvmClient = tencentcloud.cvm.v20170312.Client;
 
-  const host = "cvm.tencentcloudapi.com";
-  const service = "cvm";
-  const region = "ap-guangzhou";
-  const action = "DescribeInstances";
-  const version = "2017-03-12";
-  const timestamp = parseInt(String(new Date().getTime() / 1000));
-  const date = getDate(timestamp);
-  const payload = "{}";
+  // 实例化要请求产品(以cvm为例)的client对象
+  const client = new CvmClient({
+    // 为了保护密钥安全，建议将密钥设置在环境变量中或者配置文件中，请参考本文凭证管理章节。
+    // 硬编码密钥到代码中有可能随代码泄露而暴露，有安全隐患，并不推荐。
+    credential: { secretId, secretKey, token },
 
-  // ************* 步骤 1：拼接规范请求串 *************
-  const signedHeaders = "content-type;host";
-  const hashedRequestPayload = getHash(payload);
-  const httpRequestMethod = "POST";
-  const canonicalUri = "/";
-  const canonicalQueryString = "";
-  const canonicalHeaders =
-    "content-type:application/json; charset=utf-8\n" + "host:" + host + "\n";
+    // 产品地域
+    region: "ap-guangzhou",
+    // 可选配置实例
+    profile: {
+      signMethod: "TC3-HMAC-SHA256", // 签名方法
+      httpProfile: {
+        reqMethod: "POST", // 请求方法
+        reqTimeout: 30, // 请求超时时间，默认60s
+        // proxy: "http://127.0.0.1:8899" // http请求代理
+      },
+    },
+  });
 
-  const canonicalRequest =
-    httpRequestMethod +
-    "\n" +
-    canonicalUri +
-    "\n" +
-    canonicalQueryString +
-    "\n" +
-    canonicalHeaders +
-    "\n" +
-    signedHeaders +
-    "\n" +
-    hashedRequestPayload;
-
-  // ************* 步骤 2：拼接待签名字符串 *************
-  const algorithm = "TC3-HMAC-SHA256";
-  const hashedCanonicalRequest = getHash(canonicalRequest);
-  const credentialScope = date + "/" + service + "/" + "tc3_request";
-  const stringToSign =
-    algorithm +
-    "\n" +
-    timestamp +
-    "\n" +
-    credentialScope +
-    "\n" +
-    hashedCanonicalRequest;
-
-  // ************* 步骤 3：计算签名 *************
-  const kDate = sha256(date, "TC3" + SECRET_KEY);
-  const kService = sha256(service, kDate);
-  const kSigning = sha256("tc3_request", kService);
-  const signature = sha256(stringToSign, kSigning, "hex");
-
-  // ************* 步骤 4：拼接 Authorization *************
-  const authorization =
-    algorithm +
-    " " +
-    "Credential=" +
-    SECRET_ID +
-    "/" +
-    credentialScope +
-    ", " +
-    "SignedHeaders=" +
-    signedHeaders +
-    ", " +
-    "Signature=" +
-    signature;
-
-  // ************* 步骤 5：构造并发起请求 *************
-  const headers = {
-    Authorization: authorization,
-    "Content-Type": "application/json; charset=utf-8",
-    Host: host,
-    "X-TC-Action": action,
-    "X-TC-Timestamp": timestamp,
-    "X-TC-Version": version,
-  };
-
-  if (region) {
-    headers["X-TC-Region"] = region;
-  }
-  if (TOKEN) {
-    headers["X-TC-Token"] = TOKEN;
-  }
-
-  const options = {
-    hostname: host,
-    method: httpRequestMethod,
-    headers,
-  };
-
-  const req = https.request(options, (res) => {
-    let data = "";
-    res.on("data", (chunk) => {
-      data += chunk;
-    });
-
-    res.on("end", () => {
+  // 通过client对象调用想要访问的接口（Action），需要传入请求对象（Params）以及响应回调函数
+  // 即：client.Action(Params).then(res => console.log(res), err => console.error(err))
+  // 如：查询云服务器可用区列表
+  client.DescribeZones().then(
+    (data) => {
       console.log(data);
-    });
-  });
-
-  req.on("error", (error) => {
-    console.error(error);
-  });
-
-  req.write(payload);
-
-  req.end();
+    },
+    (err) => {
+      console.error("error", err);
+    }
+  );
 }
 
 (async function startup() {
@@ -182,5 +90,5 @@ async function callAPI(secretId, secretKey, token) {
   console.log(`密钥结果：${secret}，类型：${typeof secret}`);
   const jsonData = JSON.parse(secret);
   const { TmpSecretId, TmpSecretKey, Token } = jsonData;
-  callAPI(TmpSecretId, TmpSecretKey, Token);
+  callCloudAPI(TmpSecretId, TmpSecretKey, Token);
 })();
