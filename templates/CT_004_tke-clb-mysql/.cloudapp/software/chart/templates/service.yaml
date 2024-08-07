@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.name }}-api-service
+  namespace: default
+  labels:
+    {{- include "cloudapp.labels" . | nindent 4 }}
+  annotations:
+    service.kubernetes.io/qcloud-loadbalancer-internal-subnetid: {{ .Values.cloudappTargetSubnetID }}
+    service.cloud.tencent.com/security-groups: "sg-nlka01dx"
+    service.cloud.tencent.com/pass-to-target: "true"
+spec:
+  type: LoadBalancer
+  externalTrafficPolicy: Cluster
+  sessionAffinity: None
+  ports:
+    - name: clb-{{ .Values.name }}-tcp-{{ .Values.service.port }}-{{ .Values.service.targetPort }}
+      protocol: TCP
+      port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.targetPort }}
+  selector:
+    {{- include "cloudapp.selectorLabels" . | nindent 4 }}

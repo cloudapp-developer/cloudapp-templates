@@ -1,0 +1,72 @@
+# 应用 ID，需修改成自己的应用 ID
+id: pkg-sk0qpcbi
+
+# 自定义安装参数，通过 widget 来声明安装表单获取
+args:
+  - name: app_zone
+    widget: region-and-zone-select
+    label: 地域和可用区
+    description: 云资源将部署在选择的可用区
+
+  - name: app_target
+    label: 安装网络
+    widget: subnet-select
+    # 支持的地域
+    regions:
+      - ${app_zone.region}
+
+  - name: cluster_cidr
+    label: 容器网络 CIDR
+    widget: input
+    description: 填写容器集群的 CIDR，如：172.16.0.0/16，创建后不能修改，请做好网络规划，并确保安全组规则放通子网内容器网络和其他资源
+
+  - name: app_sg
+    label: 安全组
+    widget: security-group-select
+    # 支持的地域
+    regions:
+      - ${app_zone.region}
+
+  - name: app_cvm
+    label: 容器节点 cvm 机型
+    widget: cvm-instance-type-select
+    cpu: 4
+    region: ${app_target.region}
+    zone: ${app_target.subnet.zone}
+    chargeType: '${charge_type == "PREPAID" ? "PREPAID" : "POSTPAID_BY_HOUR"}'
+    incompleteTips: 请先选择安装目标地域
+    description: 选择 AMD 机型
+
+  - name: charge_type
+    label: 计费类型
+    description: 云资源购买使用付费方式
+    widget: select
+    defaultValue: PREPAID
+    options:
+      - label: 包年包月
+        value: PREPAID
+      - label: 按量计费
+        value: POSTPAID
+
+  - name: charge_perpaid_period
+    label: 购买时长
+    widget: input-number
+    defaultValue: 1
+    description: 云资源包年包月购买的月份数
+    when:
+      - eq: 
+          a: ${charge_type}
+          b: "PREPAID" # 包年包月
+
+  - name: charge_perpaid_auto_renew
+    label: 自动续费
+    widget: switch
+    defaultValue: false
+    when:
+      - eq: 
+          a: ${charge_type}
+          b: "PREPAID" # 包年包月
+
+  - name: cos_key
+    label: cos 密钥
+    widget: secret

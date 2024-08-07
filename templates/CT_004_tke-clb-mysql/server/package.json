@@ -1,0 +1,20 @@
+{
+  "name": "cloudapp-demo-todo-list-server",
+  "version": "1.0.0",
+  "description": "Todo List 云应用，服务源码",
+  "main": "server.js",
+  "scripts": {
+    "build": "docker build -t \"$(cloudapp docker ../.cloudapp --url | awk -F'[' '{print $1}')cloudapp-demo-todo-list:jason-202308241251\" ./ --platform=linux/amd64",
+    "push": "docker push \"$(cloudapp docker ../.cloudapp --url | awk -F'[' '{print $1}')cloudapp-demo-todo-list:jason-202308241251\"",
+    "release": "npm run build && npm run push"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "dayjs": "^1.11.9",
+    "express": "^4.18.1",
+    "mysql2": "^2.3.3",
+    "sequelize": "^7.0.0-alpha2.2"
+  }
+}

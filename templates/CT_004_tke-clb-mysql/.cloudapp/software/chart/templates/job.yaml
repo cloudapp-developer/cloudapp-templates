@@ -1,0 +1,33 @@
+# 前置 job，用于初始化数据库
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Values.name }}-setup-job
+  namespace: default
+  labels:
+    {{- include "cloudapp.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": post-install
+    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: {{ .Values.name }}-setup-container
+          image: "{{ .Values.image }}"
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: SETUP
+              value: "TRUE"
+            - name: DB_HOST
+              value: {{ .Values.mysql.host }}
+            - name: DB_PORT
+              value: "{{ .Values.mysql.port }}"
+            - name: DB_USER
+              value: {{ .Values.mysql.user }}
+            - name: DB_PASSWORD
+              value: "{{ .Values.mysql.password }}"
+      imagePullSecrets:
+        - name: cloudapp-registry-key

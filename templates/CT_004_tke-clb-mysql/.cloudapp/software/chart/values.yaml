@@ -1,0 +1,30 @@
+name: cloudapp-demo-todo-list
+
+replicaCount: 1
+
+# 这里的 ${packageId} 要替换成实际的 packageId
+image: cloudapp.tencentcloudcr.com/public/cloudapp-demo-todo-list:v202407171102
+
+service:
+  port: 80
+  targetPort: 8000
+
+resources: 
+  limits:
+    cpu: 500m
+    memory: 1Gi
+  requests:
+    cpu: 250m
+    memory: 256Mi
+
+# 应用运行时注入
+cloudappTargetSubnetID: ""
+cloudappImageCredentials:
+  registry: ""
+  username: ""
+  password: ""
+mysql:
+  host: ""
+  port: ""
+  user: ""
+  password: ""

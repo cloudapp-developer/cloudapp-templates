@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Values.name }}-statefulset
+  namespace: default
+  labels:
+    {{- include "cloudapp.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "cloudapp.selectorLabels" . | nindent 6 }}
+  serviceName: {{ .Values.name }}
+  template:
+    metadata:
+      labels:
+        {{- include "cloudapp.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ .Values.name }}-container
+          image: "{{ .Values.image }}"
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: DB_HOST
+              value: {{ .Values.mysql.host }}
+            - name: DB_PORT
+              value: "{{ .Values.mysql.port }}"
+            - name: DB_USER
+              value: {{ .Values.mysql.user }}
+            - name: DB_PASSWORD
+              value: "{{ .Values.mysql.password }}"
+            - name: CAM_ROLE_NAME
+              value: "{{ .Values.cam_role_name }}"
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      imagePullSecrets:
+        - name: cloudapp-registry-key
