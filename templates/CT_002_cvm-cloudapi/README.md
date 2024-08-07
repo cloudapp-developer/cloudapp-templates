@@ -4,6 +4,11 @@
 > 
 > 本示例主要演示：如何在CVM实例内获取临时密钥并调用云API
 
+
+## 云API调用原理
+
+![](./docs/CT_002_cvm-cloudapi.png)
+
 ## 目录说明
 
 .cloudapp：云应用根目录
