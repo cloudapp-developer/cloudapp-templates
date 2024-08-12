@@ -185,8 +185,8 @@ variable "sg" {
 
 # 云应用系统变量
 variable "cloudapp_cam_role" {}
-variable "cloudapp_repo_server" {}
-variable "cloudapp_repo_username" {}
-variable "cloudapp_repo_password" {}
 variable "cloudapp_id" {}
 variable "cloudapp_name" {}
+# variable "cloudapp_repo_server" {}
+# variable "cloudapp_repo_username" {}
+# variable "cloudapp_repo_password" {}
