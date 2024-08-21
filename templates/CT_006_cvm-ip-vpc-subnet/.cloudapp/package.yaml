@@ -10,5 +10,5 @@ args:
   - name: cvm_type
     label: 云服务器类型
     widget: cvm-instance-type-select
-    region: ${app_target.region}
-    zone: ${app_target.subnet.zone}
+    region: ${app_zone.region}
+    zone: ${app_zone.zone}
