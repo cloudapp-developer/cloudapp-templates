@@ -1,0 +1,14 @@
+# 应用 ID，需修改成自己的应用 ID
+id: ${packageId}
+
+# 自定义安装参数，通过 widget 来声明安装表单获取
+args:
+  - name: app_zone
+    widget: region-and-zone-select
+    label: 地域和可用区
+    description: 云资源将部署在选择的可用区
+  - name: cvm_type
+    label: 云服务器类型
+    widget: cvm-instance-type-select
+    region: ${app_target.region}
+    zone: ${app_target.subnet.zone}
