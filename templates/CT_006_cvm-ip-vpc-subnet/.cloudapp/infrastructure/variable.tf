@@ -74,6 +74,3 @@ variable "app_zone" {
 variable "cloudapp_cam_role" {}
 variable "cloudapp_id" {}
 variable "cloudapp_name" {}
-# variable "cloudapp_repo_server" {}
-# variable "cloudapp_repo_username" {}
-# variable "cloudapp_repo_password" {}
