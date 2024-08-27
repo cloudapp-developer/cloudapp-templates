@@ -66,7 +66,3 @@ args:
       - eq: 
           a: ${charge_type}
           b: "PREPAID" # 包年包月
-
-  - name: cos_key
-    label: cos 密钥
-    widget: secret
