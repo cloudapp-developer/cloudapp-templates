@@ -85,7 +85,6 @@ resource "cloudapp_helm_app" "app" {
     name                   = var.app_name
     cloudappTargetSubnetID = var.app_target.subnet.id
 
-    cos_key = var.cos_key
     cloudappImageCredentials = {
       registry = var.cloudapp_repo_server
       username = var.cloudapp_repo_username
