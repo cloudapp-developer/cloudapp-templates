@@ -174,3 +174,23 @@ resource "tencentcloud_clb_attachment" "api_http_attachment2" {
     weight = var.clb_attachment_weight
   }
 }
+
+
+output "cvm_ip" {
+  value       = tencentcloud_instance.demo_cvm.public_ip
+  description = "云服务器公网IP"
+}
+
+output "cvm_password" {
+  value       = random_password.cvm_password.result
+  description = "云服务器密码"
+}
+
+output "mysql_ip" {
+  value       = tencentcloud_mysql_instance.demo_mysql.intranet_ip
+  description = "MySQL实例IP"
+}
+output "mysql_password" {
+  value       = random_password.mysql_password.result
+  description = "MySQL密码"
+}
