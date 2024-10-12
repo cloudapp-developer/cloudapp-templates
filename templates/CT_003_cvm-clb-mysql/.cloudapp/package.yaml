@@ -6,13 +6,27 @@ args:
   - name: app_target
     label: 目标网络
     widget: subnet-select
+
   - name: cvm_type
     label: 云服务器类型
     widget: cvm-instance-type-select
     region: ${app_target.region}
     zone: ${app_target.subnet.zone}
+
   - name: sg
     label: 安全组
     widget: security-group-select
     regions:
       - ${app_target.region}
+
+  - name: app_certification
+    label: SSL 证书
+    widget: certificate-select
+    optional: true
+
+  - name: app_domain
+    label: 域名
+    widget: domain-input
+    optional: true
+    certId: ${app_certification.certId}
+    description: 域名解析完成之后，则可以使用域名访问应用
