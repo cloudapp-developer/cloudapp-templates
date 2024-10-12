@@ -122,6 +122,8 @@ resource "tencentcloud_clb_instance" "open_clb" {
   vpc_id = var.app_target.vpc.id
   # 子网 ID
   subnet_id = var.app_target.subnet.id
+  # 启用默认放通，即 Target 放通来自 CLB 的流量
+  load_balancer_pass_to_target = true
 }
 
 ################################################
@@ -240,9 +242,14 @@ resource "tencentcloud_clb_attachment" "api_https_attachment2" {
 ################## 声明安装结果 ###################
 ################################################
 
-output "cvm_ip" {
-  value       = tencentcloud_instance.demo_cvm.public_ip
-  description = "云服务器公网IP"
+output "main" {
+  value = "http://${tencentcloud_clb_instance.open_clb.clb_vips[0]}"
+  description = "应用入口"
+}
+
+output "entry_domain" {
+  value = "https://${var.app_domain.domain}"
+  description = "应用入口（域名访问）"
 }
 
 output "cvm_password" {
@@ -250,11 +257,7 @@ output "cvm_password" {
   description = "云服务器密码"
 }
 
-output "mysql_ip" {
-  value       = tencentcloud_mysql_instance.demo_mysql.intranet_ip
-  description = "MySQL实例IP"
-}
 output "mysql_password" {
   value       = random_password.mysql_password.result
-  description = "MySQL密码"
+  description = "MySQL Root 账号密码"
 }
