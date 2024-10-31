@@ -12,6 +12,7 @@
 `CT_002` | `CT_002_cvm-cloudapi` | 云服务器 | 单服务器应用，演示如何使用使用角色调用云 API
 `CT_003` | `CT_003_cvm-clb-mysql` | 云服务器、负载均衡、MySQL | 多服务器，MySQL数据库，通过 CLB 实现负载均衡，并暴露公网VIP供外部使用
 `CT_004` | `CT_004_tke-clb-mysql` | TKE容器服务、负载均衡、MySQL | 基于容器实现的应用程序，通过Ingress暴露外网IP使用
+`CT_005` | `CT_005_all` | 全部 | 所有支持的云资源安装示例
 `CT_006` | `CT_006_cvm-ip-vpc-subnet` | 云服务器、VPC、子网 | 单服务器应用，自动创建VPC和子网，无需用户去选择与理解
 
 
