@@ -5,7 +5,7 @@
 # CVM 镜像ID
 variable "cvm_image_id" {
   type    = string
-  default = "img-9qrfy1xt"
+  default = "img-eb30mz89"
 }
 
 # CVM 系统盘类型

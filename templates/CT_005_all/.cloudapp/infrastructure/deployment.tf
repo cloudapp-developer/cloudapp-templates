@@ -327,17 +327,17 @@ resource "random_password" "mongodb_password" {
 }
 
 # MongoDB 实例
-# resource "tencentcloud_mongodb_instance" "demo_mongodb" {
-#   memory            = 4
-#   volume            = 30
-#   engine_version    = "MONGO_44_WT"
-#   machine_type      = "HIO10G"
-#   availability_zone = var.app_target.subnet.zone
-#   vpc_id            = var.app_target.vpc.id
-#   subnet_id         = var.app_target.subnet.id
-#   password          = random_password.mongodb_password.result
-#   security_groups   = [tencentcloud_security_group.demo_sg.id]
-# }
+resource "tencentcloud_mongodb_instance" "demo_mongodb" {
+  memory            = 4
+  volume            = 30
+  engine_version    = "MONGO_44_WT"
+  machine_type      = "HIO10G"
+  availability_zone = var.app_target.subnet.zone
+  vpc_id            = var.app_target.vpc.id
+  subnet_id         = var.app_target.subnet.id
+  password          = random_password.mongodb_password.result
+  security_groups   = [tencentcloud_security_group.demo_sg.id]
+}
 
 # MongoDB 灾备实例
 # resource "tencentcloud_mongodb_standby_instance" "demo_mongodb_readonly" {
@@ -382,14 +382,14 @@ resource "tencentcloud_monitor_tmp_instance" "demo_prometheus" {
 }
 
 # RocketMQ 5.x 实例
-# resource "tencentcloud_trocket_rocketmq_instance" "demo_rocketmq" {
-#   name          = "CT_005_all-demo-rocketmq"
-#   instance_type = "PRO"
-#   sku_code      = "pro_4k"
-#   remark        = "remark"
-#   # 公网访问白名单
-#   ip_rules          = []
-#   vpc_id            = var.app_target.vpc.id
-#   subnet_id         = var.app_target.subnet.id
-#   availability_zone = var.app_target.subnet.zone
-# }
+resource "tencentcloud_trocket_rocketmq_instance" "demo_rocketmq" {
+  name          = "CT_005_all-demo-rocketmq"
+  instance_type = "PRO"
+  sku_code      = "pro_4k"
+  remark        = "remark"
+  # 公网访问白名单
+  ip_rules          = []
+  vpc_id            = var.app_target.vpc.id
+  subnet_id         = var.app_target.subnet.id
+  availability_zone = var.app_target.subnet.zone
+}
