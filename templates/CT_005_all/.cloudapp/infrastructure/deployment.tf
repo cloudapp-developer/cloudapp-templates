@@ -384,9 +384,9 @@ resource "tencentcloud_monitor_tmp_instance" "demo_prometheus" {
 # RocketMQ 5.x 实例
 resource "tencentcloud_trocket_rocketmq_instance" "demo_rocketmq" {
   name          = "CT_005_all-demo-rocketmq"
-  instance_type = "PRO"
-  sku_code      = "pro_4k"
-  remark        = "remark"
+  instance_type = "BASIC"
+  sku_code      = "basic_1k"
+  remark        = "全产品用例，basic_1k"
   # 公网访问白名单
   ip_rules          = []
   vpc_id            = var.app_target.vpc.id
