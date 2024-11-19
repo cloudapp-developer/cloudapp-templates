@@ -256,8 +256,10 @@ resource "tencentcloud_tdmq_rabbitmq_vip_instance" "demo_rabbitmq" {
   node_num                              = 3
   storage_size                          = 200
   enable_create_default_ha_mirror_queue = false
-  auto_renew_flag                       = false
-  time_span                             = 1
+  # 付费模式（0：按量计费，1：包年包月）
+  pay_mode = 0
+  # auto_renew_flag                       = false
+  # time_span                             = 1
 }
 
 # SQL Server 基础版实例
