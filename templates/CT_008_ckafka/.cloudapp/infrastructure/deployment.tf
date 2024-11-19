@@ -8,7 +8,7 @@ resource "random_password" "ckafka_password" {
 resource "tencentcloud_ckafka_instance" "kafka_instance_prepaid" {
   availability_zone  = var.app_target.subnet.zone
   instance_name      = "ckafka-instance-prepaid"
-  zone_id            = 100006
+  zone_id            = var.app_target.subnet.zone_id * 1
   period             = 1
   vpc_id             = var.app_target.vpc.id
   subnet_id          = var.app_target.subnet.id
@@ -38,7 +38,7 @@ resource "tencentcloud_ckafka_instance" "kafka_instance_prepaid" {
 resource "tencentcloud_ckafka_instance" "kafka_instance_postpaid" {
   availability_zone  = var.app_target.subnet.zone
   instance_name      = "ckafka-instance-postpaid"
-  zone_id            = 100006
+  zone_id            = var.app_target.subnet.zone_id * 1
   vpc_id             = var.app_target.vpc.id
   subnet_id          = var.app_target.subnet.id
   msg_retention_time = 1300
@@ -83,7 +83,7 @@ resource "tencentcloud_ckafka_user" "foo" {
   availability_zone = var.app_target.subnet.zone
   instance_id       = tencentcloud_ckafka_instance.kafka_instance_postpaid.id
   account_name      = "cloudapp"
-  password          = ckafka_password.ckafka_password.result
+  password          = random_password.ckafka_password.result
 }
 
 # 创建路由
