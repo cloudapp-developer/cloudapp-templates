@@ -34,7 +34,7 @@ resource "tencentcloud_security_group_rule" "egress" {
 # CVM
 resource "tencentcloud_instance" "demo_cvm" {
   # CVM 镜像ID
-  image_id = "img-9qrfy1xt"
+  image_id = "img-eb30mz89"
 
   # CVM 机型
   instance_type = var.cvm_type.instance_type
@@ -315,9 +315,9 @@ resource "tencentcloud_postgresql_instance" "demo_postgresql" {
   spec_code         = "pg.it.small2"
   security_groups   = [tencentcloud_security_group.demo_sg.id]
   storage           = 100
-  engine_version    = "16.2"
+  engine_version    = "16.4"
   db_major_version  = "16"
-  db_kernel_version = "v16.2_r1.6"
+  db_kernel_version = "v16.4_r1.7"
 }
 
 
