@@ -17,7 +17,7 @@ variable "cvm_system_disk_type" {
 # CVM 系统盘大小，单位：GB
 variable "cvm_system_disk_size" {
   type    = number
-  default = 20
+  default = 50
 }
 
 # CVM 公网IP（与最大带宽同时存在）
@@ -36,6 +36,13 @@ variable "max_bandwidth" {
 variable "cvm_charge_type" {
   type    = string
   default = "POSTPAID_BY_HOUR"
+}
+
+# 密钥对
+variable "sshkey" {
+  type = object({
+    keyIds = list(string)
+  })
 }
 
 

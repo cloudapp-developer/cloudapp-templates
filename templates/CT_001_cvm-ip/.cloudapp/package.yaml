@@ -16,3 +16,6 @@ args:
     widget: security-group-select
     regions:
       - ${app_target.region}
+  # - name: sshkey
+  #   label: 密钥对
+  #   widget: ssh-key-pairs-select

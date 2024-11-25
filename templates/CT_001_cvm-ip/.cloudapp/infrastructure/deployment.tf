@@ -43,6 +43,15 @@ resource "tencentcloud_instance" "demo_cvm" {
   # CVM 密码（由上方 random_password 随机密码生成）
   password = random_password.cvm_password.result
 
+  # SSH密钥
+  # key_ids = var.sshkey.keyIds
+
+  # instance_charge_type_prepaid_period = 2
+
+  # instance_charge_type_prepaid_renew_flag = "NOTIFY_AND_AUTO_RENEW"
+
+
+
   # 启动脚本
   user_data_raw = <<-EOT
 #!/bin/bash
