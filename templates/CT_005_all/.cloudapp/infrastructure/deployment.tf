@@ -247,20 +247,20 @@ resource "tencentcloud_redis_instance" "demo_redis" {
 
 
 # RabbitMQ 实例
-resource "tencentcloud_tdmq_rabbitmq_vip_instance" "demo_rabbitmq" {
-  availability_zone                     = var.app_target.subnet.zone
-  zone_ids_str                          = "100003,100004"
-  vpc_id                                = var.app_target.vpc.id
-  subnet_id                             = var.app_target.subnet.id
-  node_spec                             = "rabbit-vip-basic-1"
-  node_num                              = 3
-  storage_size                          = 200
-  enable_create_default_ha_mirror_queue = false
-  # 付费模式（0：按量计费，1：包年包月）
-  pay_mode = 0
-  # auto_renew_flag                       = false
-  # time_span                             = 1
-}
+# resource "tencentcloud_tdmq_rabbitmq_vip_instance" "demo_rabbitmq" {
+#   availability_zone                     = var.app_target.subnet.zone
+#   zone_ids_str                          = "100003,100004"
+#   vpc_id                                = var.app_target.vpc.id
+#   subnet_id                             = var.app_target.subnet.id
+#   node_spec                             = "rabbit-vip-basic-1"
+#   node_num                              = 3
+#   storage_size                          = 200
+#   enable_create_default_ha_mirror_queue = false
+#   # 付费模式（0：按量计费，1：包年包月）
+#   pay_mode = 0
+#   # auto_renew_flag                       = false
+#   # time_span                             = 1
+# }
 
 # SQL Server 基础版实例
 # resource "tencentcloud_sqlserver_basic_instance" "demo_sqlserver_basic" {
@@ -331,7 +331,7 @@ resource "random_password" "mongodb_password" {
 # MongoDB 实例
 resource "tencentcloud_mongodb_instance" "demo_mongodb" {
   memory            = 4
-  volume            = 30
+  volume            = 100
   engine_version    = "MONGO_44_WT"
   machine_type      = "HIO10G"
   availability_zone = var.app_target.subnet.zone
