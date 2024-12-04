@@ -395,3 +395,18 @@ resource "tencentcloud_trocket_rocketmq_instance" "demo_rocketmq" {
   subnet_id         = var.app_target.subnet.id
   availability_zone = var.app_target.subnet.zone
 }
+
+# TSE 引擎实例
+resource "tencentcloud_tse_instance" "nacos" {
+  enable_client_internet_access = false
+  engine_name                   = "testNacos"
+  engine_node_num               = 3
+  engine_product_version        = "STANDARD"
+  engine_region                 = var.app_target.region
+  engine_resource_spec          = "1C2G"
+  engine_type                   = "nacos"
+  engine_version                = "2.0.3"
+  trade_type                    = 0
+  vpc_id                        = var.app_target.vpc.id
+  subnet_id                     = var.app_target.subnet.id
+}
