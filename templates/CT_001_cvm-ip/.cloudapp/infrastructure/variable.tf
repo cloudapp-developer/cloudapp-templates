@@ -66,8 +66,9 @@ variable "app_target" {
     region    = string
     region_id = string
     vpc = object({
-      id         = string
-      cidr_block = string
+      id                     = string
+      cidr_block             = string
+      default_route_table_id = string
     })
     subnet = object({
       id   = string
