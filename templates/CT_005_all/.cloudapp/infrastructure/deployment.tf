@@ -317,7 +317,8 @@ resource "tencentcloud_postgresql_instance" "demo_postgresql" {
   storage           = 100
   engine_version    = "16.4"
   db_major_version  = "16"
-  db_kernel_version = "v16.4_r1.7"
+  # 版本需要更新去购买页查看
+  db_kernel_version = "v16.4_r1.8"
 }
 
 
@@ -397,16 +398,16 @@ resource "tencentcloud_trocket_rocketmq_instance" "demo_rocketmq" {
 }
 
 # TSE 引擎实例
-resource "tencentcloud_tse_instance" "nacos" {
-  enable_client_internet_access = false
-  engine_name                   = "testNacos"
-  engine_node_num               = 3
-  engine_product_version        = "STANDARD"
-  engine_region                 = var.app_target.region
-  engine_resource_spec          = "1C2G"
-  engine_type                   = "nacos"
-  engine_version                = "2.0.3"
-  trade_type                    = 0
-  vpc_id                        = var.app_target.vpc.id
-  subnet_id                     = var.app_target.subnet.id
-}
+# resource "tencentcloud_tse_instance" "nacos" {
+#   enable_client_internet_access = false
+#   engine_name                   = "testNacos"
+#   engine_node_num               = 3
+#   engine_product_version        = "STANDARD"
+#   engine_region                 = var.app_target.region
+#   engine_resource_spec          = "1C2G"
+#   engine_type                   = "nacos"
+#   engine_version                = "2.0.3"
+#   trade_type                    = 0
+#   vpc_id                        = var.app_target.vpc.id
+#   subnet_id                     = var.app_target.subnet.id
+# }
