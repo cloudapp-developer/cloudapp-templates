@@ -14,10 +14,10 @@ resource "tencentcloud_instance" "demo_cvm" {
   instance_type = var.cvm_type.instance_type
 
   # 云硬盘类型
-  system_disk_type = var.cvm_system_disk_type
+  system_disk_type = var.cvm_system_disk.disk_type
 
   # 云硬盘大小，单位：GB
-  system_disk_size = var.cvm_system_disk_size
+  system_disk_size = var.cvm_system_disk.disk_size
 
   # 公网IP（与 internet_max_bandwidth_out 同时出现）
   allocate_public_ip = var.cvm_public_ip

@@ -8,16 +8,16 @@ variable "cvm_image_id" {
   default = "img-eb30mz89"
 }
 
-# CVM 系统盘类型
-variable "cvm_system_disk_type" {
-  type    = string
-  default = "CLOUD_HSSD"
-}
-
-# CVM 系统盘大小，单位：GB
-variable "cvm_system_disk_size" {
-  type    = number
-  default = 50
+# CVM 系统盘
+variable "cvm_system_disk" {
+  type    = object({
+    disk_type = string
+    disk_size = number
+  })
+  default = {
+    disk_type = "CLOUD_HSSD"
+    disk_size = 50
+  }
 }
 
 # CVM 公网IP（与最大带宽同时存在）

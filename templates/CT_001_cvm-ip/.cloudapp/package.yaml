@@ -11,6 +11,13 @@ args:
     widget: cvm-instance-type-select
     region: ${app_target.region}
     zone: ${app_target.subnet.zone}
+  - name: cvm_system_disk
+    label: 云硬盘
+    widget: disk-select
+    usage: system
+    cvmConfig: ${cvm_type}
+    # 匹配 CVM 镜像大小
+    minDiskSize: 50
   - name: sg
     label: 安全组
     widget: security-group-select
